@@ -269,7 +269,7 @@ void mm_idx_dump(FILE *fp, const mm_idx_t *mi);
  *
  * @return minimap2 index
  */
-mm_idx_t *mm_idx_str(int w, int k, int is_hpc, int bucket_bits, int n, const char **seq, const char **name);
+mm_idx_t *mm_idx_str(int w, int k, int is_hpc, int bucket_bits, int n, int n_threads, const char **seq, const char **name);
 
 /**
  * Print index statistics to stderr
