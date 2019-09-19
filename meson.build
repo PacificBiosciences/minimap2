@@ -35,7 +35,7 @@ endforeach
 mm2_thread_dep = dependency('threads', required : true)
 
 # zlib
-mm2_zlib_dep = dependency('zlib', required : true)
+mm2_zlib_dep = dependency('zlib', required : true, fallback : ['zlib', 'zlib_dep'])
 
 # math
 mm2_math_dep = c.find_library('m')
