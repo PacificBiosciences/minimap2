@@ -275,6 +275,9 @@ void mm_filter_regs(const mm_mapopt_t *opt, int qlen, int *n_regs, mm_reg1_t *re
 	*n_regs = k;
 }
 
+#if defined(__clang__) || (__GNUC__ >= 8)
+__attribute__((no_sanitize("undefined")))
+#endif
 int mm_squeeze_a(void *km, int n_regs, mm_reg1_t *regs, mm128_t *a)
 { // squeeze out regions in a[] that are not referenced by regs[]
 	int i, as = 0;

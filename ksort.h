@@ -98,11 +98,17 @@ typedef const char *ksstr_t;
 #define RS_MIN_SIZE 64
 #define RS_MAX_BITS 8
 
+#if defined(__clang__) || (__GNUC__ >= 8)
+#define KRADIX_SORT_INIT_ATTRIBUTE __attribute__((no_sanitize("undefined")))
+#else
+#define KRADIX_SORT_INIT_ATTRIBUTE
+#endif
+
 #define KRADIX_SORT_INIT(name, rstype_t, rskey, sizeof_key) \
 	typedef struct { \
 		rstype_t *b, *e; \
 	} rsbucket_##name##_t; \
-	void rs_insertsort_##name(rstype_t *beg, rstype_t *end) \
+	KRADIX_SORT_INIT_ATTRIBUTE void rs_insertsort_##name(rstype_t *beg, rstype_t *end) \
 	{ \
 		rstype_t *i; \
 		for (i = beg + 1; i < end; ++i) \
