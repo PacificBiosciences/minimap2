@@ -5,6 +5,12 @@
 #include "kalloc.h"
 #include "khash.h"
 
+// disable all the warnings in this file
+#if __GNUC__ >= 7
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Walloc-size-larger-than="
+#endif
+
 static inline void mm_cal_fuzzy_len(mm_reg1_t *r, const mm128_t *a)
 {
 	int i;
@@ -275,6 +281,9 @@ void mm_filter_regs(const mm_mapopt_t *opt, int qlen, int *n_regs, mm_reg1_t *re
 	*n_regs = k;
 }
 
+#if defined(__clang__) || (__GNUC__ >= 8)
+__attribute__((no_sanitize("undefined")))
+#endif
 int mm_squeeze_a(void *km, int n_regs, mm_reg1_t *regs, mm128_t *a)
 { // squeeze out regions in a[] that are not referenced by regs[]
 	int i, as = 0;
