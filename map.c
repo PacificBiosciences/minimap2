@@ -165,6 +165,9 @@ static mm128_t *collect_seed_hits_heap(void *km, const mm_mapopt_t *opt, int max
 	return a;
 }
 
+#if defined(__clang__) || (__GNUC__ >= 8)
+__attribute__((no_sanitize("undefined")))
+#endif
 static mm128_t *collect_seed_hits(void *km, const mm_mapopt_t *opt, int max_occ, const mm_idx_t *mi, const char *qname, const mm128_v *mv, int qlen, int64_t *n_a, int *rep_len,
 								  int *n_mini_pos, uint64_t **mini_pos)
 {
