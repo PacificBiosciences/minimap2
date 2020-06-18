@@ -5,6 +5,12 @@
 #include "kalloc.h"
 #include "khash.h"
 
+// disable all the warnings in this file
+#if __GNUC__ >= 7
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Walloc-size-larger-than="
+#endif
+
 static inline void mm_cal_fuzzy_len(mm_reg1_t *r, const mm128_t *a)
 {
 	int i;
