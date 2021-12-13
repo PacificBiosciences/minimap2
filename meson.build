@@ -125,7 +125,7 @@ mm2_simd_libs += simd_mod.check(
 # https://github.com/mesonbuild/meson/issues/2478#issuecomment-351132872
 mm2_simd_all_objects = []
 foreach i : mm2_simd_libs
-  mm2_simd_all_objects += i.extract_all_objects()
+  mm2_simd_all_objects += i.extract_all_objects(recursive : true)
 endforeach
 
 # install library if
