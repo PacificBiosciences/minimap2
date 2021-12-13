@@ -1,14 +1,14 @@
 project(
   'minimap2',
-  'c',
+  ['c'],
   version : '2.15',
   default_options : [
     'buildtype=release',
     'warning_level=3',
-    'c_std=c11',
+    'c_std=c17',
     'b_ndebug=if-release'],
   license : 'MIT',
-  meson_version : '>= 0.46.0')
+  meson_version : '>= 0.57.0')
 
 ##########
 # CFLAGS #
