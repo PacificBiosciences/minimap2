@@ -21,11 +21,23 @@ foreach cflag: [
   '-Wno-unused-parameter',
   '-Wno-unused-variable',
   '-Wno-sign-compare',
-  '-Wno-unused-but-set-variable']
+  '-Wno-unused-but-set-variable',
+  '-fsigned-char']
     if c.has_argument(cflag)
       mm2_flags += cflag
     endif
 endforeach
+
+############
+# includes #
+############
+
+mm2_include_dir_labels = ['.']
+if host_machine.cpu_family() == 'aarch64'
+  mm2_include_dir_labels += ['sse2neon']
+endif
+
+mm2_include_directories = include_directories(mm2_include_dir_labels)
 
 ################
 # dependencies #
@@ -64,8 +76,6 @@ if not meson.is_subproject()
       'sdust.h']),
     subdir : 'minimap2')
 endif
-
-mm2_include_directories = include_directories('.')
 
 #############
 # libraries #
@@ -151,6 +161,18 @@ mm2_cpp_sources = files([
   'sdust.c',
   'sketch.c',
   'splitidx.c'])
+
+if host_machine.cpu_family() == 'aarch64'
+  mm2_cpp_sources += files([
+    'ksw2_ll_sse.c',
+    'ksw2_extd2_sse.c',
+    'ksw2_exts2_sse.c',
+    'ksw2_extz2_sse.c'])
+
+  # These flags are intended for only the 3 ksw2_ext* items above.
+  # Meson won't detect the m1 macbook as neon-capable in the simd module, so the flags are global here instead:
+  mm2_flags += ['-DKSW_SSE2_ONLY', '-D__SSE2__']
+endif
 
 mm2_lib = library(
   'minimap2',
